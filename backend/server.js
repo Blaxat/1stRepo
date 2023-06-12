@@ -20,25 +20,25 @@ mongoose.connect(process.env.MONGO_URL, {
   useUnifiedTopology: true,
 });
 
+app.get('/', (req, res) => {
+  const message = 'Hey';
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Message</title>
+    </head>
+    <body>
+      <h1>${message}</h1>
+    </body>
+    </html>
+  `;
+  res.send(html);
+});
+
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('MongoDB database connection established successfully');
-
-  app.get('/home', (req, res) => {
-    const message = 'MongoDB database connection established successfully';
-    const html = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Message</title>
-      </head>
-      <body>
-        <h1>${message}</h1>
-      </body>
-      </html>
-    `;
-    res.send(html);
-  });
 });
 
 
