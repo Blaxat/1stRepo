@@ -24,7 +24,7 @@ const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('MongoDB database connection established successfully');
 
-  app.get('/', (req, res) => {
+  app.get('/home', (req, res) => {
     const message = 'MongoDB database connection established successfully';
     const html = `
       <!DOCTYPE html>
