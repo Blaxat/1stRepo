@@ -37,17 +37,19 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function (next) {
   if (this.isNew) {
-    const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    const now = new Date();
     this.registrationDate.date = now;
     this.registrationDate.time = getTimeInAMPMFormat(now);
   }
   
-  const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-  this.lastCheckin.date = now;
-  this.lastCheckin.time = getTimeInAMPMFormat(now);
-
+  const now = new Date();
+  if (!isNaN(now)) {
+    this.lastCheckin.date = now;
+    this.lastCheckin.time = getTimeInAMPMFormat(now);
+  } 
   next();
 });
+
 
 
 const User = mongoose.model('User', userSchema);
