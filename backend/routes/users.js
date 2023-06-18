@@ -5,8 +5,8 @@ const {getTimeInAMPMFormat, generateOTP, sendOTPByEmail} = require('../helper/he
 
 // Create a new user
 router.route('/users/add').post((req, res) => {
-  const { rfid, name, email } = req.body;
-  const newUser = new User({ rfid, name, email });
+  const { rfid, name, phone, email } = req.body;
+  const newUser = new User({ rfid, name, phone, email });
 
   newUser
     .save()
@@ -46,9 +46,9 @@ router.route('/users/rfid/:rfid').post((req, res) => {
     .catch((err) => res.status(400).json('Error: ' + err));
 });
 
-router.route('/users/mail/:email').post((req, res) => {
-  const { email } = req.params;
-  User.findOne({ email: email })
+router.route('/users/phone/:phone').post((req, res) => {
+  const { phone } = req.params;
+  User.findOne({ phone: phone })
     .then((user) => {
       if (!user) {
         return res.status(404).json('No user found');
@@ -57,7 +57,7 @@ router.route('/users/mail/:email').post((req, res) => {
       user.lastCheckin.time = getTimeInAMPMFormat(new Date());
       let otp = generateOTP(6);
       user.save()
-      sendOTPByEmail(email, otp)
+      sendOTPByEmail(user.email, otp)
         .then(() => res.json(otp))
         .catch((err) => res.status(400).json('Error: ' + err));
     })
