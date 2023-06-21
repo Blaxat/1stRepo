@@ -1,12 +1,13 @@
 const router = require('express').Router();
 const User = require('../models/User');
 const nodemailer = require('nodemailer');
-const {getTimeInAMPMFormat, generateOTP, sendOTPByEmail} = require('../helper/helpers');
+const {getTimeInAMPMFormat, generateOTP, generatePASS, sendOTPByEmail} = require('../helper/helpers');
 
 // Create a new user
 router.route('/users/add').post((req, res) => {
   const { rfid, name, phone, email } = req.body;
-  const newUser = new User({ rfid, name, phone, email });
+  let pass = generatePASS(5);
+  const newUser = new User({ rfid, name, phone, email, password: pass });
 
   newUser
     .save()
