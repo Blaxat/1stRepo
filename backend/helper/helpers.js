@@ -11,6 +11,16 @@ function getTimeInAMPMFormat(date) {
   return new Date(date).toLocaleString('en-IN', options);
 }
 
+function generatePASS(length) {
+  let pass = Math.floor(Math.random() * 100000).toString();
+
+  while (pass.length < length) {
+    pass = "0" + pass;
+  }
+
+  return pass;
+}
+
 function generateOTP(length) {
   let otp = Math.floor(Math.random() * 1000000).toString();
 
@@ -51,5 +61,6 @@ function sendOTPByEmail(email, otp) {
 module.exports = {
   getTimeInAMPMFormat,
   generateOTP,
+  generatePASS,
   sendOTPByEmail,
 };
